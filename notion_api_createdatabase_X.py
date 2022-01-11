@@ -20,7 +20,7 @@ SITE_LOGIN = ''
 
 browser = webdriver.Chrome()
 
-def createPage(DatabaseId, headers, posterName, posterTitle):
+def create_page(DatabaseId, headers, posterName, posterTitle):
 
     createUrl = 'https://api.notion.com/v1/pages'
 
@@ -52,7 +52,7 @@ def createPage(DatabaseId, headers, posterName, posterTitle):
     data = json.dumps(newPageData)
     res = requests.request("POST", createUrl, headers=headers, data=data)
 
-def downloadwithname(link, author):
+def download_with_name(link, author):
     file_id = link
     filename = author + '.pdf'
     url = 'https://drive.google.com/uc?id=' + file_id
@@ -94,11 +94,11 @@ for anfaURL in urls_to_parse:
 
     for author, link in zip(all_auth_str, all_short_href_links):
         shortauthor = author.replace(' ', '').replace(',', '').lower()
-        downloadwithname(link, shortauthor)
+        download_with_name(link, shortauthor)
 
 for author, postitle, link in zip(all_auth_str, all_titl_str):
     posterName = author
     posterTitle = postitle
-    createPage(NOTION_DATABASE_ID, NOTION_HEADERS, posterName, posterTitle)
+    create_page(NOTION_DATABASE_ID, NOTION_HEADERS, posterName, posterTitle)
 
 

@@ -19,8 +19,6 @@ NOTION_HEADERS = {
 }
 
 
-
-
 # We use API to get our page in json format
 def read_page_block(blockId, headers):
     readUrl = f"https://api.notion.com/v1/blocks/{blockId}/children"
@@ -29,9 +27,6 @@ def read_page_block(blockId, headers):
     data = res.json()
     print(res.status_code)
     return(res.text)
-
-    with open('./db.json', 'w', encoding='utf8') as f:
-        json.dump(data, f, ensure_ascii=False)
 
 json_data = read_page_block(NOTION_BLOCK_ID, NOTION_HEADERS)
 
@@ -77,16 +72,14 @@ def create_automated_fields(matches):
     
         newFields.append(question_1)
         newFields.append(question_2)
-    #print(newFields)
-    #print(type(Q1))
     return newFields
 newFields = create_automated_fields(matches)
 
 
+
 # Create a survey via typeform API with the questions created in the previous step
-def createSurvey(headers):
+def create_survey(headers):
     createUrl = 'https://api.typeform.com/forms'
-    our_item = '1. Article 1 Decision Tree Classification'
     newFormData = {
       "fields":  newFields,
       "settings": {
@@ -102,6 +95,6 @@ def createSurvey(headers):
     }
 
     data1 = json.dumps(newFormData)
-    res = requests.request("POST", createUrl, headers=TYPERORM_HEADERS, data=data1,)
+    requests.request("POST", createUrl, headers=TYPERORM_HEADERS, data=data1,)
 
-createSurvey(TYPERORM_HEADERS)
+create_survey(TYPERORM_HEADERS)
